@@ -14,21 +14,16 @@ _start:
 	pop rsi
 next_arg:
 	cmp r8, 0			; exit if no arguments left
-	jz exit_group
-	mov rdi, r8			; print number of remaining arguments
-	and rdi, 0xFF
-	add rdi, 0x30
+	jz exit_group	
 	dec r8
-	pop rsi
-	mov rdi, rsi
+	pop rsi	
 	push r8
 	call check_print_version_flag
 	pop r8	
 	jmp next_arg
 
-check_print_version_flag:	
-	mov rdi, rsi
-	mov rsi, print_version_flag
+check_print_version_flag:		
+	mov rdi, print_version_flag
 	call arrays_equal_zero_term
 	cmp rax, 0
 	jz do_not_print_version
