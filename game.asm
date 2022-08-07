@@ -8,11 +8,16 @@ section .data
 global	_start
 section	.text
 
+; arrays.asm
+extern arrays_equal_zero_term
+
+; input.asm
+extern read_line
+
+; printing.asm
 extern print
 extern print_newline
 extern print_c_string
-
-extern arrays_equal_zero_term
 
 _start:
 	pop r8
@@ -20,13 +25,18 @@ _start:
 	pop rsi
 next_arg:
 	cmp r8, 0			; exit if no arguments left
-	jz exit_group	
+	jz args_checked	
 	dec r8
 	pop rsi	
 	push r8
 	call check_print_version_flag
 	pop r8	
 	jmp next_arg
+args_checked:
+	call read_line
+	mov rdi, rax
+	call print_c_string
+	jmp exit_group
 
 check_print_version_flag:		
 	mov rdi, print_version_flag
