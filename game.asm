@@ -1,5 +1,5 @@
 section .data
-    _title_screen db "Assembly Game!", 10, 0
+    _title_screen db "Assembly Game!", 10, "  [", 0x1B, "[32mstart", 0x1B, "[0m] Start the Game", 10, "  [", 0x1B, "[32mexit", 0x1B, "[0m]  Exit the Game", 10, "> ", 0
     _menu_item_start db "start", 10, 0
     _menu_item_exit db "exit", 10, 0  
     _game_started db "Yep!", 10, 0  

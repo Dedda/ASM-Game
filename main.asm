@@ -2,6 +2,7 @@ section .data
 	_version_msg_pre       db  "Assembly Game v", 0
 	_version      db  "0.1.0a", 0	
 	_print_version_flag    db  "-v",0
+	_exit_message db 0x1B, "[91m", "BYE!", 0x1B, "[0m", 10, 0
 
 global	_start
 section	.text
@@ -35,6 +36,8 @@ _next_arg:
 	jmp _next_arg
 _args_checked:
 	call main_menu
+	mov rdi, _exit_message
+	call print_c_string		
 	jmp exit_group
 
 _check_print_version_flag:		
