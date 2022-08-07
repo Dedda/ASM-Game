@@ -8,6 +8,7 @@ global main_menu
 
 ; arrays.asm
 extern arrays_equal_zero_term
+extern c_strings_equal_ci
 
 ; input.asm
 extern read_line
@@ -25,12 +26,12 @@ main_menu:
     mov r12, rax
     mov rdi, r12
     mov rsi, _menu_item_exit
-    call arrays_equal_zero_term
+    call c_strings_equal_ci
     cmp rax, 1
     je _menu_exit
     mov rdi, r12
     mov rsi, _menu_item_start
-    call arrays_equal_zero_term
+    call c_strings_equal_ci
     cmp rax, 1
     jne main_menu
     call _game
