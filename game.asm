@@ -20,17 +20,17 @@ extern print_newline
 extern print_c_string
 
 _start:
-	pop r8
-	dec r8
+	pop r12
+	dec r12
 	pop rsi
 next_arg:
-	cmp r8, 0			; exit if no arguments left
+	cmp r12, 0			; exit if no arguments left
 	jz args_checked	
-	dec r8
+	dec r12
 	pop rsi	
-	push r8
+	push r12
 	call check_print_version_flag
-	pop r8	
+	pop r12	
 	jmp next_arg
 args_checked:
 	call read_line

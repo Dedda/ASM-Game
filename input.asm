@@ -16,7 +16,6 @@ read_line:
 
 ; file descriptors
 STDIN EQU 0
-STDOUT EQU 1
 
 ; syscalls
 SYS_READ EQU 0

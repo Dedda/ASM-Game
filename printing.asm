@@ -38,7 +38,6 @@ length_counted:
 
 
 ; file descriptors
-STDIN EQU 0
 STDOUT EQU 1
 
 ; syscalls
