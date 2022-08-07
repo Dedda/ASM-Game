@@ -19,7 +19,6 @@ read_line:
     ret
 
 _clear_buffer:
-    xor rax, rax
     xor r8, r8   
 _repeat:
     mov r9, line_buffer
@@ -28,14 +27,6 @@ _repeat:
     cmp r8, 0xFF
     jne _repeat
     ret
-
-    
-;    mov rax, 0
-;    mov rsi, line_buffer
-;    mov rdi, line_buffer
-;    add rdi, line_buffer_size
-;    rep stos
-;    ret
 
 ; file descriptors
 STDIN EQU 0
