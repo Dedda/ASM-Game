@@ -11,6 +11,9 @@ section	.text
 ; arrays.asm
 extern arrays_equal_zero_term
 
+; game.asm
+extern main_menu
+
 ; input.asm
 extern read_line
 
@@ -33,9 +36,7 @@ next_arg:
 	pop r12	
 	jmp next_arg
 args_checked:
-	call read_line
-	mov rdi, rax
-	call print_c_string
+	call main_menu
 	jmp exit_group
 
 check_print_version_flag:		
@@ -48,8 +49,7 @@ do_not_print_version:
 	ret
 
 exit_group:
-	; exit(result)	
-	mov	rdi, 0			; result
+	mov	rdi, 0					; result
 	mov	rax, EXIT_GROUP			; exit(2)
 	syscall
 
