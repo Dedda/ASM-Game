@@ -1,5 +1,5 @@
 section .data
-    title_screen db "Assembly Game!", 10, 0
+    _title_screen db "Assembly Game!", 10, 0
     _menu_item_start db "start", 10, 0
     _menu_item_exit db "exit", 10, 0  
     _game_started db "Yep!", 10, 0  
@@ -19,7 +19,7 @@ extern print_newline
 section .text
 
 main_menu:
-    mov rdi, title_screen
+    mov rdi, _title_screen
     call print_c_string
     call read_line
     mov r12, rax

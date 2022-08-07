@@ -1,5 +1,5 @@
 section .data
-	linebreak    db  10
+	_linebreak    db  10
 
 global print
 global print_newline
@@ -15,7 +15,7 @@ print:
 
 
 print_newline:
-	mov rsi, linebreak
+	mov rsi, _linebreak
 	mov rdx, 1
 	call print
 	ret
@@ -23,14 +23,14 @@ print_newline:
 print_c_string:
 	xor rax, rax	
 	mov r11, rdi
-count_length:
+_count_length:
 	mov cl, [r11]
 	cmp cl, 0
-	jz length_counted
+	jz _length_counted
 	inc rax	
 	inc r11
-	jmp count_length
-length_counted:		
+	jmp _count_length
+_length_counted:
 	mov rsi, rdi
 	mov rdx, rax
 	call print
