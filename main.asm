@@ -1,8 +1,10 @@
+%define red(a)   0x1B, "[91m", a, 0x1B, "[0m"
+
 section .data	
 	_version_msg_pre       db  "Assembly Game v", 0
 	_version      db  "0.1.0a", 0	
 	_print_version_flag    db  "-v",0
-	_exit_message db 0x1B, "[91m", "BYE!", 0x1B, "[0m", 10, 0
+	_exit_message db red("BYE!"), 10, 0
 
 global	_start
 section	.text
@@ -13,11 +15,7 @@ extern arrays_equal_zero_term
 ; game.asm
 extern main_menu
 
-; input.asm
-extern read_line
-
 ; printing.asm
-extern print
 extern print_newline
 extern print_c_string
 
