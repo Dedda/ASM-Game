@@ -1,3 +1,4 @@
 .idea
 **/*.iml
 ./game
+savegame.dat
