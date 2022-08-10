@@ -12,6 +12,9 @@ section	.text
 ; arrays.asm
 extern arrays_equal_zero_term
 
+; divive.asm
+extern divide
+
 ; game.asm
 extern main_menu
 
