@@ -1,7 +1,7 @@
 %define red(a)   0x1B, "[91m", a, 0x1B, "[0m"
 
 section .data	
-	_version_msg_pre       db  "Assembly Game v", 0
+	_version_msg_pre       db  "💩 Assembly Game v", 0
 	_version      db  "0.1.0a", 0	
 	_print_version_flag    db  "-v",0
 	_exit_message db red("BYE!"), 10, 0

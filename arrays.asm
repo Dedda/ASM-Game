@@ -1,3 +1,5 @@
+%define ascii_offset_lc_uc 0x20
+
 global arrays_equal_zero_term
 global c_strings_equal_ci
 global char_to_lowercase
@@ -50,11 +52,11 @@ _arrays_are_not_equal_ci:
 
 char_to_lowercase:
     mov r8b, dil
-    cmp r8b, 0x41
+    cmp r8b, 'A'
     jl _already_lowercase
-    cmp r8b, 0x5A
+    cmp r8b, 'Z'
     jg _already_lowercase
-    add dil, 0x20
+    add dil, ascii_offset_lc_uc
 _already_lowercase:
     mov al, dil
     ret

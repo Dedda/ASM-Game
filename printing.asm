@@ -1,3 +1,5 @@
+%define base_10 10
+
 section .data
 	_linebreak    db  10
 
@@ -48,7 +50,7 @@ print_u64:
 	xor r8, r8
 	xor r9, r9
 	xor rdx, rdx
-	mov rcx, 10
+	mov rcx, base_10
 	mov rax, rdi
 _next_digit:
 	xor rdx, rdx

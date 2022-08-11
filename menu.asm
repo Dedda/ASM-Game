@@ -10,6 +10,8 @@ section .data
 
     _item_count_name_divider db ' '
 
+    _saved_msg db "💾", 10, 0
+
 section .bss
     _inventory_cb: resq 1
     _gs_start: resq 1
@@ -101,6 +103,10 @@ _meta_save:
     mov rdi, [_gs_start]
     mov rsi, [_gs_size]
     call save_game
+    push rdi
+    mov rdi, _saved_msg
+    call print_c_string
+    pop rdi
     jmp _done_meta
 _meta_inventory:
     call _print_inventory
