@@ -60,10 +60,8 @@ _next_digit:
 	add r8, rdx
 	cmp rax, 0
 	jnz _next_digit
-	shl r8, 8
 	push r8
 	mov r8, rsp
-	inc r8
 	mov rsi, r8
 	mov rdx, r9
 	call print

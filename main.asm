@@ -12,11 +12,8 @@ section	.text
 ; arrays.asm
 extern arrays_equal_zero_term
 
-; divive.asm
-extern divide
-
 ; game.asm
-extern main_menu
+extern bootstrap_game
 
 ; printing.asm
 extern print_newline
@@ -36,7 +33,7 @@ _next_arg:
 	pop r12	
 	jmp _next_arg
 _args_checked:
-	call main_menu
+	call bootstrap_game
 	mov rdi, _exit_message
 	call print_c_string		
 	jmp exit_group
