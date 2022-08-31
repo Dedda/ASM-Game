@@ -5,14 +5,18 @@
 
 section .data
     ; Main menu
-    _title_screen db "Main Menu:", 10, "  [", green(start_txt), "] Start New Game", 10, "  [", green(load_txt), "]  Load Game", 10, "  [", green(exit_txt), "]  Exit Game", 10, "> ", 0
+    _title_screen db "Main Menu:", 10, 
+                  db "  [", green(start_txt), "] Start New Game", 10
+                  db "  [", green(load_txt), "]  Load Game", 10
+                  db "  [", green(exit_txt), "]  Exit Game", 10, "> "
+                  db 0
     _main_menu_start_text db start_txt, 10, 0
     _main_menu_load_text db load_txt, 10, 0
     _main_menu_exit_text db exit_txt, 10, 0
     _main_menu_colon_q_text db ":q", 10, 0
-    _main_menu_data dq _main_menu_start_text, _main_menu_start
-                    dq _main_menu_load_text, _main_menu_load
-                    dq _main_menu_exit_text, _main_menu_exit
+    _main_menu_data dq _main_menu_start_text,   _main_menu_start
+                    dq _main_menu_load_text,    _main_menu_load
+                    dq _main_menu_exit_text,    _main_menu_exit
                     dq _main_menu_colon_q_text, _main_menu_exit
                     dq 0
 
@@ -22,18 +26,13 @@ section .data
     _game_started db "Staring game...", 10, 0
     _loading_game db "Loading game...", 10, 0
 
-    _give_fisherman_fish_for_bait_msg db "You trade 1 🐟 Fish for 1 🪱 Bait.", 10, 0
-    _give_fisherman_fish_for_bait_no_fish_msg db "You don't have any 🐟 Fish to trade.", 10, 0
-
-    _feed_bird_msg db "You feed the 🐦 Bird a 🪱 Worm. It is happy and flies away.", 10, 0
-    _feed_bird_no_bait_msg db "You don't have anything to feed the 🐦 Bird.", 10, 0
-    
     ; Menus
     _game_menu_exit db "exit", 10, 0
     _game_menu_data dq _game_menu_exit, _game_done, 0
 
     ; Rooms
-    _rooms dq _room_docks, _room_harbor_district_plaza
+    _rooms dq room_docks, _room_harbor_district_plaza
+    room_offset_docks EQU 0
 
     ; Inventory item names
     _item_count_name_divider db ' '
@@ -41,19 +40,18 @@ section .data
     _fish_name_sg db "🐟 Fish", 0
     _bait_name dq _bait_name_sg, _bait_name_sg
     _bait_name_sg db "🪱 Bait", 0
-    _item_inventory_name_map dq _fish_count, _fish_name, _bait_count, _bait_name, 0    
-
-    ; Game state    
-    ; inventory
-    _fish_count dq 1
-    _bait_count dq 0
-    ; triggers
-    _fed_bird   db 0
-    ; general
-    _room       db 0
-    _gs_size equ $-_fish_count    
+    _item_inventory_name_map dq fish_count, _fish_name
+                             dq bait_count, _bait_name
+                             dq 0    
 
 global bootstrap_game
+global room_offset_docks
+
+; game_state.asm
+extern game_state_beginning
+extern fish_count
+extern bait_count
+extern game_state_size
 
 ; input.asm
 extern read_line
@@ -70,12 +68,15 @@ extern print_newline
 ; savegame.asm
 extern load_game
 
+; room_docks.asm
+extern room_docks
+
 section .text
 
 bootstrap_game:
     mov rdi, _item_inventory_name_map
-    mov rsi, _fish_count
-    mov rdx, _gs_size
+    mov rsi, game_state_beginning
+    mov rdx, game_state_size
     call initialize_meta_menu    
 _main_menu:
     mov rdi, _title_screen
@@ -93,8 +94,8 @@ _main_menu_start:
 _main_menu_load:
     mov rdi, _loading_game
     call print_c_string
-    mov rdi, _fish_count
-    mov rsi, _gs_size
+    mov rdi, game_state_beginning
+    mov rsi, game_state_size
     call load_game
     cmp rax, 0    
     jz _error_on_load
@@ -118,34 +119,5 @@ _game:
 _game_done:
     ret
 
-_give_fisherman_fish_for_bait:
-    cmp qword [_fish_count], 0
-    jz _cannot_give_fish
-    dec qword [_fish_count]
-    inc qword [_bait_count]    
-    mov rsi, _give_fisherman_fish_for_bait_msg    
-    call print_c_string
-    ret
-_cannot_give_fish:
-    mov rsi, _give_fisherman_fish_for_bait_no_fish_msg
-    call print_c_string
-    ret
-
-_feed_bird:
-    cmp qword [_bait_count], 0
-    jz _cannot_feed_bird
-    dec qword [_bait_count]
-    mov byte [_fed_bird], 1
-    mov rsi, _feed_bird_msg
-    call print_c_string
-    ret
-_cannot_feed_bird:
-    mov rsi, _feed_bird_no_bait_msg
-    call print_c_string
-    ret
-
-_room_docks:
-    ret
-
-_room_harbor_district_plaza:
+_room_harbor_district_plaza:    
     ret
