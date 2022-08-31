@@ -4,6 +4,7 @@ global game_state_beginning
 global fish_count
 global bait_count
 global fed_bird
+global room
 global game_state_size
 
 extern room_offset_docks

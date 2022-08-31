@@ -1,9 +1,23 @@
+%define green(a) 0x1B, "[32m", a, 0x1B, "[0m"
+%define look_around_txt "look"
+%define exit_txt "exit"
+
 section .data
 
-    _msg_wake_up_at_docks db "You wake up naked at the docks. You seem to have lost all your belongings "
-                          db "except for a large 🐟 Fish in your right hand. You don't know where it "
+    _msg_wake_up_at_docks db "You wake up naked at the docks. You seem to have lost all your belongings ", 10
+                          db "except for a large 🐟 Fish in your right hand. You don't know where it ", 10
                           db "came from but at least it seems to be fresh."
                           db 10, 0
+
+    _msg_room_menu db "  [", green(look_around_txt), "] Look around", 10
+                   db "  [", green(exit_txt), "] Leave the room (and this game)", 10, "> "
+                   db 0
+
+    _msg_look_around db "To your right, you see a fisherman. He looks desperate. Probably because he hasn't "
+                     db "caught a single fish today.", 10
+                     db "To your left is a gate that leeds out the docks. It doesn't appear to be locked but "
+                     db "but it is guarded by a very angry looking crow."
+                     db 10, 0
 
     _give_fisherman_fish_for_bait_msg db "You trade 1 🐟 Fish for 1 🪱 Bait.", 10, 0
     _give_fisherman_fish_for_bait_no_fish_msg db "You don't have any 🐟 Fish to trade.", 10, 0
@@ -11,7 +25,16 @@ section .data
     _feed_bird_msg db "You feed the 🐦 Bird a 🪱 Worm. It is happy and flies away.", 10, 0
     _feed_bird_no_bait_msg db "You don't have anything to feed the 🐦 Bird.", 10, 0    
 
+    _menu_docks_look_around_text db "look", 10, 0
+    _menu_docks_exit_text db "exit", 10, 0
+    _menu_docks_data dq _menu_docks_look_around_text, _look_around
+                     dq _menu_docks_exit_text, _exit_docks
+                     dq 0
+
 global room_docks
+
+; game.asm
+extern room_offset_docks
 
 ; game_state.asm
 extern fish_count
@@ -20,12 +43,39 @@ extern fed_bird
 
 ; printing.asm
 extern print_c_string
+extern print_newline
+
+; input.asm
+extern read_line
+
+; menu.asm
+extern run_basic_menu
 
 section .text
 
-room_docks:
-    mov rsi, _msg_wake_up_at_docks
+room_docks:    
+    mov rdi, _msg_wake_up_at_docks
     call print_c_string
+    call print_newline
+_room_docks:
+    call _print_room_menu
+    call read_line
+    mov rsi, rax
+    mov rdi, _menu_docks_data
+    call run_basic_menu
+    jmp rax
+_look_around:
+    mov rdi, _msg_look_around
+    call print_c_string
+    jmp _room_docks
+_exit_docks:
+    mov rax, 0xFF
+    ret
+
+_print_room_menu:
+    mov rdi, _msg_room_menu
+    call print_c_string
+    call print_newline
     ret
 
 _give_fisherman_fish_for_bait:

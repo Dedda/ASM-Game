@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-source_files=( main arrays game game_state input menu printing savegame room_docks )
+source_files=( main arrays game game_state input menu printing savegame room_docks room_harbor_district_plaza )
 linker_command="ld -o game"
 
 for source_file in "${source_files[@]}"
