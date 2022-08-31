@@ -10,6 +10,7 @@ extern print_c_string
 section .text
 
 room_harbor_district_plaza:
-    mov rsi, _msg_enter_plaza_default
+    mov rdi, _msg_enter_plaza_default
     call print_c_string
+    mov rax, 0xFF
     ret

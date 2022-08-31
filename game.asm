@@ -47,6 +47,7 @@ section .data
 
 global bootstrap_game
 global room_offset_docks
+global room_offset_harbor_district_plaza
 
 ; game_state.asm
 extern game_state_beginning
@@ -115,12 +116,13 @@ _game:
     mov rdi, _game_started
     call print_c_string
     call print_newline 
+_game_loop:
     xor rax, rax
     mov al, [room]
     call [_rooms + rax * 8]
     cmp al, 0xFF
     je _game_done
     mov [room], al
-    jmp _game
+    jmp _game_loop
 _game_done:
     ret
