@@ -20,9 +20,9 @@ section .data
                    db "  [", action(exit_txt), "] Leave the room (and this game)", 10, "> "
                    db 0
 
-    _msg_look_at_sad_fisherman   db "To your right, you see a ", item("fisherman"), ". He looks desperate. Probably because he hasn't "
+    _msg_look_at_sad_fisherman   db "To your right, you see a ", item("🎣 fisherman"), ". He looks desperate. Probably because he hasn't "
                                  db "caught a single ", fish, " today.", 10, 0
-    _msg_look_at_happy_fisherman db "To your right, you see a ", item("fisherman"), ". He looks happy with the big ", fish, " in his bucket."
+    _msg_look_at_happy_fisherman db "To your right, you see a ", item("🎣 fisherman"), ". He looks happy with the big ", fish, " in his bucket."
                                  db 10, 0
 
     _msg_look_at_guarded_gate   db "To your left is a ", gate, " that leeds out the docks. It doesn't appear to be locked but "
@@ -90,7 +90,8 @@ _room_docks:
     mov rsi, rax
     mov rdi, _menu_docks_data
     call run_menu_with_meta_commands
-    cmp rax, 0
+    cmp rax, 1
+    je _room_docks
     jz _invalid_input
     jmp rax
 _selected_look_around:

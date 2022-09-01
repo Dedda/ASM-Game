@@ -1,4 +1,7 @@
 %define green(a) 0x1B, "[32m", a, 0x1B, "[0m"
+%define item(a) 0x1B, "[94m", a, 0x1B, "[0m"
+%define fish item("🐟 fish")
+%define bait item("🪱 bait")
 %define start_txt "start"
 %define load_txt "load"
 %define exit_txt "exit"
@@ -38,9 +41,9 @@ section .data
     ; Inventory item names
     _item_count_name_divider db ' '
     _fish_name dq _fish_name_sg, _fish_name_sg
-    _fish_name_sg db "🐟 Fish", 0
+    _fish_name_sg db fish, 0
     _bait_name dq _bait_name_sg, _bait_name_sg
-    _bait_name_sg db "🪱 Bait", 0
+    _bait_name_sg db bait, 0
     _item_inventory_name_map dq fish_count, _fish_name
                              dq bait_count, _bait_name
                              dq 0
@@ -74,6 +77,7 @@ extern load_game
 
 ; room_docks.asm
 extern room_docks
+
 ; room_harbor_district_plaza.asm
 extern room_harbor_district_plaza
 

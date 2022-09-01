@@ -8,9 +8,12 @@ section .data
                     dq _main_menu_inventory_text, _meta_inventory, _main_menu_inventory_text_short, _meta_inventory
                     dq 0
 
+    _item_indentation db "  ", 0
     _item_count_name_divider db ' '
 
     _saved_msg db "💾", 10, 0
+
+    _inventory_header db 10, "Inventory:", 10, 0
 
 section .bss
     _inventory_cb: resq 1
@@ -95,7 +98,7 @@ _handle_meta:
     inc rsi
     mov rdi, _meta_menu_data
     call run_basic_menu
-    xor r14, r14
+    mov r14, 1
     cmp rax, 0
     jz _done
     jmp rax
@@ -121,6 +124,8 @@ _print_inventory:
     push r12
     push r13
     push r14
+    mov rdi, _inventory_header
+    call print_c_string
     xor r12, r12    ; counter for index in _item_inventory_names
 _print_next_inventory_item:
     shl r12, 1
@@ -142,6 +147,8 @@ _print_next_inventory_item:
     add r14, 8                      ; add qword size to get plural name reference
 _singular_item:
     mov r14, [r14]                  ; item name address
+    mov rdi, _item_indentation
+    call print_c_string
     mov rdi, r13
     call print_u64
     mov rsi, _item_count_name_divider
@@ -152,6 +159,7 @@ _singular_item:
     inc r12
     jmp _print_next_inventory_item
 _all_items_printed:
+    call print_newline
     pop r14
     pop r13
     pop r12
