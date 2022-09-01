@@ -1,4 +1,4 @@
-%define green(a) 0x1B, "[32m", a, 0x1B, "[0m"
+%define action(a) 0x1B, "[32m", a, 0x1B, "[0m"
 %define item(a) 0x1B, "[94m", a, 0x1B, "[0m"
 %define fish item("🐟 fish")
 %define bird item("🐦 bird")
@@ -14,10 +14,10 @@ section .data
                           db "came from but at least it seems to be fresh."
                           db 10, 0
 
-    _msg_room_menu db "  [", green(look_around_txt), "] Look around", 10
-                   db "  [", green("give"), " (item) ", green("to"), " (recipient)] Give an item from your inventory", 10
-                   db "  [", green("enter"), " (passage)] Go through a door etc.", 10
-                   db "  [", green(exit_txt), "] Leave the room (and this game)", 10, "> "
+    _msg_room_menu db "  [", action(look_around_txt), "] Look around", 10
+                   db "  [", action("give"), " ", item("item"), " ", action("to"), " ", item("recipient"), "] Give an item from your inventory", 10
+                   db "  [", action("enter"), " ", item("passage"), "] Go through a door etc.", 10
+                   db "  [", action(exit_txt), "] Leave the room (and this game)", 10, "> "
                    db 0
 
     _msg_look_at_sad_fisherman   db "To your right, you see a ", item("fisherman"), ". He looks desperate. Probably because he hasn't "
@@ -35,7 +35,7 @@ section .data
     _msg_give_bird_fish db "The ", bird, " does not want your ", fish, ".", 10, 0
 
     _feed_bird_msg db "You feed the ", bird, " your ", bait, ". It is happy and flies away.", 10, 0
-    _feed_bird_no_bait_msg db "You don't have anything to feed the ", bird, ".", 10, 0    
+    _feed_bird_no_bait_msg db "You don't have anything to feed the ", bird, ".", 10, 0
 
     _enter_gate_msg db "You go through the ", gate, " and find yourself on a large plaza.", 10, 0
     _cannot_enter_gate_msg db "The ", gate, " is not locked but the angry ", bird, " scares you. "
@@ -49,7 +49,7 @@ section .data
     _menu_enter_gate_text db "enter gate", 10, 0
     _menu_docks_exit_text db "exit", 10, 0
     _menu_docks_data dq _menu_docks_look_around_text, _selected_look_around
-                     dq _menu_give_fisherman_fish_text, _selected_give_fish_to_fisherman                     
+                     dq _menu_give_fisherman_fish_text, _selected_give_fish_to_fisherman
                      dq _menu_give_bird_fish_text, _selected_give_fish_to_bird
                      dq _menu_give_bird_bait_text, _selected_give_bait_to_bird
                      dq _menu_enter_gate_text, _selected_enter_gate
@@ -79,10 +79,10 @@ extern run_menu_with_meta_commands
 
 section .text
 
-room_docks:    
+room_docks:
     mov rdi, _msg_wake_up_at_docks
     call print_c_string
-    call print_newline    
+    call print_newline
 _room_docks:
     call _print_room_menu
     call read_line
@@ -113,7 +113,7 @@ _selected_enter_gate:
     ret
 _cannot_enter_gate:
     mov rdi, _cannot_enter_gate_msg
-    call print_c_string    
+    call print_c_string
     jmp _room_docks
 _exit_docks:
     mov rax, 0xFF
@@ -121,7 +121,7 @@ _exit_docks:
 
 _print_room_menu:
     mov rdi, _msg_room_menu
-    call print_c_string    
+    call print_c_string
     ret
 
 _look_around:
@@ -148,7 +148,7 @@ _give_fisherman_fish_for_bait:
     jz _cannot_give_fish
     dec qword [fish_count]
     inc qword [bait_count]
-    mov rdi, _give_fisherman_fish_for_bait_msg    
+    mov rdi, _give_fisherman_fish_for_bait_msg
     call print_c_string
     ret
 _cannot_give_fish:

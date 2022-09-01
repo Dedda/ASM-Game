@@ -33,7 +33,7 @@ extern save_game
 
 section .text
 
-initialize_meta_menu:     
+initialize_meta_menu:
     mov [_inventory_cb], rdi
     mov [_gs_start], rsi
     mov [_gs_size], rdx
@@ -48,24 +48,24 @@ run_basic_menu:     ; rdi -> menu data, rsi -> input data
     xor r14, r14    ; return default
 _next_entry:
     shl r13, 1
-    mov rcx, [r12 + r13 * 8]     ; current entry text    
-    mov rdx, [r12 + r13 * 8 + 8] ; current entry jump location    
+    mov rcx, [r12 + r13 * 8]     ; current entry text
+    mov rdx, [r12 + r13 * 8 + 8] ; current entry jump location
     shr r13, 1
     inc r13
     cmp rcx, 0
     jz _done
     push rdx
-    mov rdi, rcx    
+    mov rdi, rcx
     call c_strings_equal_ci
     pop rdx
     cmp rax, 0
-    jz _next_entry    
+    jz _next_entry
     mov r14, rdx
 _done:
     mov rax, r14
     pop r14
     pop r13
-    pop r12    
+    pop r12
     ret
 
 run_menu_with_meta_commands:
@@ -79,21 +79,21 @@ run_menu_with_meta_commands:
     je _handle_meta
 _next_entry_meta:
     shl r13, 1
-    mov rcx, [r12 + r13 * 8]     ; current entry text    
-    mov rdx, [r12 + r13 * 8 + 8] ; current entry jump location    
+    mov rcx, [r12 + r13 * 8]     ; current entry text
+    mov rdx, [r12 + r13 * 8 + 8] ; current entry jump location
     shr r13, 1
     inc r13
     cmp rcx, 0
     jz _done
-    mov rdi, rcx    
+    mov rdi, rcx
     call c_strings_equal_ci
     cmp rax, 0
-    jz _next_entry    
+    jz _next_entry
     mov r14, rdx
     jmp _done_meta
 _handle_meta:
     inc rsi
-    mov rdi, _meta_menu_data    
+    mov rdi, _meta_menu_data
     call run_basic_menu
     xor r14, r14
     cmp rax, 0
@@ -111,23 +111,23 @@ _meta_save:
 _meta_inventory:
     call _print_inventory
 _done_meta:
-    mov rax, r14    
+    mov rax, r14
     pop r14
     pop r13
-    pop r12    
+    pop r12
     ret
 
-_print_inventory:    
+_print_inventory:
     push r12
     push r13
     push r14
     xor r12, r12    ; counter for index in _item_inventory_names
 _print_next_inventory_item:
-    shl r12, 1    
+    shl r12, 1
     mov r14, [_inventory_cb]
     mov r13, [r14 + r12 * 8]                        ; address of item count
     cmp qword r13, 0                    ; end of printable item list detected
-    jz _all_items_printed        
+    jz _all_items_printed
     shr r12, 1
     mov r13, [r13]
     inc r12
@@ -139,7 +139,7 @@ _print_next_inventory_item:
     shr r12, 1
     cmp r13, 1
     je _singular_item
-    add r14, 8                      ; add qword size to get plural name reference    
+    add r14, 8                      ; add qword size to get plural name reference
 _singular_item:
     mov r14, [r14]                  ; item name address
     mov rdi, r13
@@ -149,10 +149,10 @@ _singular_item:
     mov rdi, r14
     call print_c_string
     call print_newline
-    inc r12    
+    inc r12
     jmp _print_next_inventory_item
 _all_items_printed:
     pop r14
-    pop r13   
+    pop r13
     pop r12
     ret

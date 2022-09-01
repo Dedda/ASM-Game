@@ -22,7 +22,7 @@ save_game:
     mov edx, 0q666
     syscall
     mov r14, rax
-    ; Write file    
+    ; Write file
     mov rsi, r12
     mov rdi, r14    ; File descriptor
     mov rax, SYS_WRITE

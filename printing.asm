@@ -31,13 +31,13 @@ print_newline:
 	ret
 
 print_c_string:
-	xor rax, rax	
+	xor rax, rax
 	mov r11, rdi
 _count_length:
 	mov cl, [r11]
 	cmp cl, 0
 	jz _length_counted
-	inc rax	
+	inc rax
 	inc r11
 	jmp _count_length
 _length_counted:

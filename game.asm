@@ -5,7 +5,7 @@
 
 section .data
     ; Main menu
-    _title_screen db "Main Menu:", 10, 
+    _title_screen db "Main Menu:", 10,
                   db "  [", green(start_txt), "] Start New Game", 10
                   db "  [", green(load_txt), "]  Load Game", 10
                   db "  [", green(exit_txt), "]  Exit Game", 10, "> "
@@ -43,7 +43,7 @@ section .data
     _bait_name_sg db "🪱 Bait", 0
     _item_inventory_name_map dq fish_count, _fish_name
                              dq bait_count, _bait_name
-                             dq 0    
+                             dq 0
 
 global bootstrap_game
 global room_offset_docks
@@ -83,12 +83,12 @@ bootstrap_game:
     mov rdi, _item_inventory_name_map
     mov rsi, game_state_beginning
     mov rdx, game_state_size
-    call initialize_meta_menu    
+    call initialize_meta_menu
 _main_menu:
     mov rdi, _title_screen
     call print_c_string
     call read_line
-    mov rsi, rax    
+    mov rsi, rax
     mov rdi, _main_menu_data
     call run_basic_menu
     cmp rax, 0
@@ -103,7 +103,7 @@ _main_menu_load:
     mov rdi, game_state_beginning
     mov rsi, game_state_size
     call load_game
-    cmp rax, 0    
+    cmp rax, 0
     jz _error_on_load
     call _game
 _error_on_load:
@@ -115,7 +115,7 @@ _game:
     call print_newline
     mov rdi, _game_started
     call print_c_string
-    call print_newline 
+    call print_newline
 _game_loop:
     xor rax, rax
     mov al, [room]

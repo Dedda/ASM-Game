@@ -9,7 +9,7 @@ global game_state_size
 
 extern room_offset_docks
 
-    ; Game state    
+    ; Game state
 game_state_beginning:
     ; inventory
     fish_count dq 1
@@ -18,4 +18,4 @@ game_state_beginning:
     fed_bird   db 0
     ; general
     room       db room_offset_docks
-    game_state_size equ $-game_state_beginning    
+    game_state_size equ $-game_state_beginning

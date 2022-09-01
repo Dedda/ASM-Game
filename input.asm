@@ -18,7 +18,7 @@ read_line:
     ret
 
 _clear_input_buffer:
-    xor r8, r8   
+    xor r8, r8
 _repeat:
     mov byte [_line_buffer + r8], 0
     inc r8

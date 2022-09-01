@@ -27,12 +27,12 @@ _arrays_are_not_equal:
 c_strings_equal_ci:
     push r12
     xor r12, r12		; reset index counter
-    mov r11, rdi        
-_check_at_index_ci:    
-	mov dil, [r11, r12]		; read byte from index    
+    mov r11, rdi
+_check_at_index_ci:
+	mov dil, [r11, r12]		; read byte from index
     call char_to_lowercase
     mov r9b, al
-	mov dil, [rsi, r12]        
+	mov dil, [rsi, r12]
     call char_to_lowercase
     mov r10b, al
 	cmp r9b, r10b
