@@ -25,29 +25,29 @@ section .data
     _msg_look_at_happy_fisherman db "To your right, you see a ", item("fisherman"), ". He looks happy with the big ", fish, " in his bucket."
                                  db 10, 0
 
-    _msg_look_at_guarded_gate db "To your left is a ", gate, " that leeds out the docks. It doesn't appear to be locked but "
-                              db "but it is guarded by a very angry looking ", bird, "."
-                              db 10, 0
+    _msg_look_at_guarded_gate   db "To your left is a ", gate, " that leeds out the docks. It doesn't appear to be locked but "
+                                db "but it is guarded by a very angry looking ", bird, "."
+                                db 10, 0
     _msg_look_at_unguarded_gate db "To your left is a ", gate, " that leeds out the docks. It doesn't appear to be locked.", 10, 0
 
-    _give_fisherman_fish_for_bait_msg db "You trade 1 ", fish, " for 1 ", bait, ".", 10, 0
+    _give_fisherman_fish_for_bait_msg         db "You trade 1 ", fish, " for 1 ", bait, ".", 10, 0
     _give_fisherman_fish_for_bait_no_fish_msg db "You don't have any ", fish, " to give.", 10, 0
-    _msg_give_bird_fish db "The ", bird, " does not want your ", fish, ".", 10, 0
+    _msg_give_bird_fish                       db "The ", bird, " does not want your ", fish, ".", 10, 0
 
-    _feed_bird_msg db "You feed the ", bird, " your ", bait, ". It is happy and flies away.", 10, 0
+    _feed_bird_msg         db "You feed the ", bird, " your ", bait, ". It is happy and flies away.", 10, 0
     _feed_bird_no_bait_msg db "You don't have anything to feed the ", bird, ".", 10, 0
 
-    _enter_gate_msg db "You go through the ", gate, " and find yourself on a large plaza.", 10, 0
+    _enter_gate_msg        db "You go through the ", gate, " and find yourself on a large plaza.", 10, 0
     _cannot_enter_gate_msg db "The ", gate, " is not locked but the angry ", bird, " scares you. "
                            db "You need to find a way to get rid of it."
                            db 10, 0
 
-    _menu_docks_look_around_text db "look", 10, 0
+    _menu_docks_look_around_text   db "look", 10, 0
     _menu_give_fisherman_fish_text db "give fish to fisherman", 10, 0
-    _menu_give_bird_fish_text db "give fish to bird", 10, 0
-    _menu_give_bird_bait_text db "give bait to bird", 10, 0
-    _menu_enter_gate_text db "enter gate", 10, 0
-    _menu_docks_exit_text db "exit", 10, 0
+    _menu_give_bird_fish_text      db "give fish to bird", 10, 0
+    _menu_give_bird_bait_text      db "give bait to bird", 10, 0
+    _menu_enter_gate_text          db "enter gate", 10, 0
+    _menu_docks_exit_text          db "exit", 10, 0
     _menu_docks_data dq _menu_docks_look_around_text, _selected_look_around
                      dq _menu_give_fisherman_fish_text, _selected_give_fish_to_fisherman
                      dq _menu_give_bird_fish_text, _selected_give_fish_to_bird
@@ -55,6 +55,7 @@ section .data
                      dq _menu_enter_gate_text, _selected_enter_gate
                      dq _menu_docks_exit_text, _exit_docks
                      dq 0
+    _invalid_input_msg db "🚫 You cannot do that", 10, 0
 
 global room_docks
 
@@ -90,7 +91,7 @@ _room_docks:
     mov rdi, _menu_docks_data
     call run_menu_with_meta_commands
     cmp rax, 0
-    jz _room_docks
+    jz _invalid_input
     jmp rax
 _selected_look_around:
     call _look_around
@@ -113,6 +114,10 @@ _selected_enter_gate:
     ret
 _cannot_enter_gate:
     mov rdi, _cannot_enter_gate_msg
+    call print_c_string
+    jmp _room_docks
+_invalid_input:
+    mov rdi, _invalid_input_msg
     call print_c_string
     jmp _room_docks
 _exit_docks:
