@@ -1,11 +1,16 @@
 %define green(a) 0x1B, "[32m", a, 0x1B, "[0m"
+%define item(a) 0x1B, "[94m", a, 0x1B, "[0m"
+%define fish item("🐟 fish")
+%define bird item("🐦 bird")
+%define bait item("🪱 bait")
+%define gate item("🚪 gate")
 %define look_around_txt "look"
 %define exit_txt "exit"
 
 section .data
 
     _msg_wake_up_at_docks db "You wake up naked at the docks. You seem to have lost all your belongings ", 10
-                          db "except for a large 🐟 Fish in your right hand. You don't know where it ", 10
+                          db "except for a large ", fish, " in your right hand. You don't know where it ", 10
                           db "came from but at least it seems to be fresh."
                           db 10, 0
 
@@ -15,25 +20,25 @@ section .data
                    db "  [", green(exit_txt), "] Leave the room (and this game)", 10, "> "
                    db 0
 
-    _msg_look_at_sad_fisherman   db "To your right, you see a fisherman. He looks desperate. Probably because he hasn't "
-                                 db "caught a single 🐟 Fish today.", 10, 0
-    _msg_look_at_happy_fisherman db "To your right, you see a fisherman. He looks happy with the big 🐟 Fish in his bucket."
+    _msg_look_at_sad_fisherman   db "To your right, you see a ", item("fisherman"), ". He looks desperate. Probably because he hasn't "
+                                 db "caught a single ", fish, " today.", 10, 0
+    _msg_look_at_happy_fisherman db "To your right, you see a ", item("fisherman"), ". He looks happy with the big ", fish, " in his bucket."
                                  db 10, 0
 
-    _msg_look_at_guarded_gate db "To your left is a 🚪 Gate that leeds out the docks. It doesn't appear to be locked but "
-                              db "but it is guarded by a very angry looking 🐦 Bird."
+    _msg_look_at_guarded_gate db "To your left is a ", gate, " that leeds out the docks. It doesn't appear to be locked but "
+                              db "but it is guarded by a very angry looking ", bird, "."
                               db 10, 0
-    _msg_look_at_unguarded_gate db "To your left is a 🚪 Gate that leeds out the docks. It doesn't appear to be locked.", 10, 0
+    _msg_look_at_unguarded_gate db "To your left is a ", gate, " that leeds out the docks. It doesn't appear to be locked.", 10, 0
 
-    _give_fisherman_fish_for_bait_msg db "You trade 1 🐟 Fish for 1 🪱 Bait.", 10, 0
-    _give_fisherman_fish_for_bait_no_fish_msg db "You don't have any 🐟 Fish to give.", 10, 0
-    _msg_give_bird_fish db "The 🐦 Bird does not want your 🐟 Fish.", 10, 0
+    _give_fisherman_fish_for_bait_msg db "You trade 1 ", fish, " for 1 ", bait, ".", 10, 0
+    _give_fisherman_fish_for_bait_no_fish_msg db "You don't have any ", fish, " to give.", 10, 0
+    _msg_give_bird_fish db "The ", bird, " does not want your ", fish, ".", 10, 0
 
-    _feed_bird_msg db "You feed the 🐦 Bird a 🪱 Worm. It is happy and flies away.", 10, 0
-    _feed_bird_no_bait_msg db "You don't have anything to feed the 🐦 Bird.", 10, 0    
+    _feed_bird_msg db "You feed the ", bird, " your ", bait, ". It is happy and flies away.", 10, 0
+    _feed_bird_no_bait_msg db "You don't have anything to feed the ", bird, ".", 10, 0    
 
-    _enter_gate_msg db "You go through the 🚪 Gate and find yourself on a large plaza.", 10, 0
-    _cannot_enter_gate_msg db "The 🚪 Gate is not locked but the angry 🐦 Bird scares you. "
+    _enter_gate_msg db "You go through the ", gate, " and find yourself on a large plaza.", 10, 0
+    _cannot_enter_gate_msg db "The ", gate, " is not locked but the angry ", bird, " scares you. "
                            db "You need to find a way to get rid of it."
                            db 10, 0
 
