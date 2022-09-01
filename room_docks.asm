@@ -92,6 +92,7 @@ _room_docks:
     call run_menu_with_meta_commands
     cmp rax, 1
     je _room_docks
+    cmp rax, 0
     jz _invalid_input
     jmp rax
 _selected_look_around:
