@@ -34,15 +34,15 @@ section .data
     _game_menu_data dq _game_menu_exit, _game_done, 0
 
     ; Rooms
-    _rooms dq room_docks, room_harbor_district_plaza
+    _rooms dq room_docks, room_harbor_plaza
     room_offset_docks EQU 0
-    room_offset_harbor_district_plaza EQU 1
+    room_offset_harbor_plaza EQU 1
 
     ; Inventory item names
     _item_count_name_divider db ' '
-    _fish_name dq _fish_name_sg, _fish_name_sg
+    _fish_name    dq _fish_name_sg, _fish_name_sg
     _fish_name_sg db fish, 0
-    _bait_name dq _bait_name_sg, _bait_name_sg
+    _bait_name    dq _bait_name_sg, _bait_name_sg
     _bait_name_sg db bait, 0
     _item_inventory_name_map dq fish_count, _fish_name
                              dq bait_count, _bait_name
@@ -50,7 +50,7 @@ section .data
 
 global bootstrap_game
 global room_offset_docks
-global room_offset_harbor_district_plaza
+global room_offset_harbor_plaza
 
 ; game_state.asm
 extern game_state_beginning
@@ -59,18 +59,19 @@ extern bait_count
 extern room
 extern game_state_size
 
+; imgdata.asm
+extern img_welcome_screen
+
 ; input.asm
 extern read_line
 
 ; menu.asm
 extern initialize_meta_menu
 extern run_basic_menu
-extern run_menu_with_meta_commands
 
 ; printing.asm
 extern print_c_string
 extern print_newline
-extern print_u64
 
 ; savegame.asm
 extern load_game
@@ -78,8 +79,8 @@ extern load_game
 ; room_docks.asm
 extern room_docks
 
-; room_harbor_district_plaza.asm
-extern room_harbor_district_plaza
+; room_harbor_plaza.asm
+extern room_harbor_plaza
 
 section .text
 
@@ -89,6 +90,8 @@ bootstrap_game:
     mov rdx, game_state_size
     call initialize_meta_menu
 _main_menu:
+    mov rdi, img_welcome_screen
+    call print_c_string
     mov rdi, _title_screen
     call print_c_string
     call read_line

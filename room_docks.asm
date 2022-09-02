@@ -42,12 +42,12 @@ section .data
                            db "You need to find a way to get rid of it."
                            db 10, 0
 
-    _menu_docks_look_around_text   db "look", 10, 0
+    _menu_docks_look_around_text   db look_around_txt, 10, 0
     _menu_give_fisherman_fish_text db "give fish to fisherman", 10, 0
     _menu_give_bird_fish_text      db "give fish to bird", 10, 0
     _menu_give_bird_bait_text      db "give bait to bird", 10, 0
     _menu_enter_gate_text          db "enter gate", 10, 0
-    _menu_docks_exit_text          db "exit", 10, 0
+    _menu_docks_exit_text          db exit_txt, 10, 0
     _menu_docks_data dq _menu_docks_look_around_text, _selected_look_around
                      dq _menu_give_fisherman_fish_text, _selected_give_fish_to_fisherman
                      dq _menu_give_bird_fish_text, _selected_give_fish_to_bird
@@ -61,7 +61,7 @@ global room_docks
 
 ; game.asm
 extern room_offset_docks
-extern room_offset_harbor_district_plaza
+extern room_offset_harbor_plaza
 
 ; game_state.asm
 extern fish_count
@@ -72,6 +72,9 @@ extern fed_bird
 extern print_c_string
 extern print_newline
 
+; imgdata.asm
+extern img_docks
+
 ; input.asm
 extern read_line
 
@@ -81,6 +84,8 @@ extern run_menu_with_meta_commands
 section .text
 
 room_docks:
+    mov rdi, img_docks
+    call print_c_string
     mov rdi, _msg_wake_up_at_docks
     call print_c_string
     call print_newline
@@ -112,7 +117,7 @@ _selected_enter_gate:
     jz _cannot_enter_gate
     mov rdi, _enter_gate_msg
     call print_c_string
-    mov rax, room_offset_harbor_district_plaza
+    mov rax, room_offset_harbor_plaza
     ret
 _cannot_enter_gate:
     mov rdi, _cannot_enter_gate_msg

@@ -98,7 +98,7 @@ _handle_meta:
     inc rsi
     mov rdi, _meta_menu_data
     call run_basic_menu
-    mov r14, 1
+    mov r14, 1                  ; return value after entering meta mode to distingish between faulty action input and meta commands
     cmp rax, 0
     jz _done
     jmp rax
