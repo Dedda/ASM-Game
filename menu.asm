@@ -2,10 +2,12 @@ section .data
     ; Meta commands
     _meta_menu_save_text db "save", 10, 0
     _meta_menu_save_text_short db "s", 10, 0
-    _main_menu_inventory_text db "inventory", 10, 0
-    _main_menu_inventory_text_short db "i", 10, 0
+    _meta_menu_inventory_text db "inventory", 10, 0
+    _meta_menu_inventory_text_short db "i", 10, 0
+    _meta_menu_location_text db "location", 10, 0
     _meta_menu_data dq _meta_menu_save_text, _meta_save, _meta_menu_save_text_short, _meta_save,
-                    dq _main_menu_inventory_text, _meta_inventory, _main_menu_inventory_text_short, _meta_inventory
+                    dq _meta_menu_inventory_text, _meta_inventory, _meta_menu_inventory_text_short, _meta_inventory
+                    dq _meta_menu_location_text, _meta_location
                     dq 0
 
     _item_indentation db "  ", 0
@@ -15,6 +17,8 @@ section .data
 
     _inventory_header db 10, "Inventory:", 10, 0
 
+    _room_headers dq img_docks, img_harbor_plaza
+
 section .bss
     _inventory_cb: resq 1
     _gs_start: resq 1
@@ -23,6 +27,13 @@ section .bss
 global initialize_meta_menu
 global run_basic_menu
 global run_menu_with_meta_commands
+
+; game_state.asm
+extern room
+
+; imgdata.asm
+extern img_docks
+extern img_harbor_plaza
 
 ; printing.asm
 extern c_strings_equal_ci
@@ -113,6 +124,9 @@ _meta_save:
     jmp _done_meta
 _meta_inventory:
     call _print_inventory
+    jmp _done_meta
+_meta_location:
+    call _print_location
 _done_meta:
     mov rax, r14
     pop r14
@@ -162,5 +176,14 @@ _all_items_printed:
     call print_newline
     pop r14
     pop r13
+    pop r12
+    ret
+
+_print_location:
+    push r12
+    xor r12, r12
+    mov r12b, [room]
+    mov rdi, [_room_headers + r12 * 8]
+    call print_c_string
     pop r12
     ret

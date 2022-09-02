@@ -68,10 +68,6 @@ extern fish_count
 extern bait_count
 extern fed_bird
 
-; printing.asm
-extern print_c_string
-extern print_newline
-
 ; imgdata.asm
 extern img_docks
 
@@ -80,6 +76,10 @@ extern read_line
 
 ; menu.asm
 extern run_menu_with_meta_commands
+
+; printing.asm
+extern print_c_string
+extern print_newline
 
 section .text
 
