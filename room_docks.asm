@@ -81,9 +81,13 @@ extern run_menu_with_meta_commands
 extern print_c_string
 extern print_newline
 
+; tui.asm
+extern clear_screen
+
 section .text
 
 room_docks:
+    call clear_screen
     mov rdi, img_docks
     call print_c_string
     mov rdi, _msg_wake_up_at_docks

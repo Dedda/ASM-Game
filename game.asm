@@ -73,14 +73,17 @@ extern run_basic_menu
 extern print_c_string
 extern print_newline
 
-; savegame.asm
-extern load_game
-
 ; room_docks.asm
 extern room_docks
 
 ; room_harbor_plaza.asm
 extern room_harbor_plaza
+
+; savegame.asm
+extern load_game
+
+; tui.asm
+extern clear_screen
 
 section .text
 
@@ -90,6 +93,7 @@ bootstrap_game:
     mov rdx, game_state_size
     call initialize_meta_menu
 _main_menu:
+    call clear_screen
     mov rdi, img_welcome_screen
     call print_c_string
     mov rdi, _title_screen
@@ -103,7 +107,7 @@ _main_menu:
     jmp rax
 _main_menu_start:
     call _game
-    jmp _main_menu
+    ret
 _main_menu_load:
     mov rdi, _loading_game
     call print_c_string

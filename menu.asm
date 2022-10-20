@@ -16,6 +16,7 @@ section .data
     _saved_msg db "💾", 10, 0
 
     _inventory_header db 10, "Inventory:", 10, 0
+    _location_header db 10, "You are here:", 10, 0
 
     _room_headers dq img_docks, img_harbor_plaza
 
@@ -180,6 +181,8 @@ _all_items_printed:
     ret
 
 _print_location:
+    mov rdi, _location_header
+    call print_c_string
     push r12
     xor r12, r12
     mov r12b, [room]

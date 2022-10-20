@@ -36,9 +36,13 @@ extern run_menu_with_meta_commands
 extern print_c_string
 extern print_newline
 
+; tui.asm
+extern clear_screen
+
 section .text
 
 room_harbor_plaza:
+    call clear_screen
     mov rdi, img_harbor_plaza
     call print_c_string
     mov rdi, _msg_enter_plaza_default

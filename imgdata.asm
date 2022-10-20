@@ -1,8 +1,8 @@
 section .data
 
-    global img_welcome_screen
-    global img_docks
-    global img_harbor_plaza
+global img_welcome_screen
+global img_docks
+global img_harbor_plaza
 
     img_welcome_screen incbin "imgdata/welcome_screen.txt"
                             db 0
