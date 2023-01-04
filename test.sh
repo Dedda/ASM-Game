@@ -31,6 +31,8 @@ $($linker_command)
 rm *.o
 rm test/*.o
 
+chmod +x tests
+
 if [ "$(command -v tokei)" != "" ]; then
     echo "Code stats for main program:"
     echo ""
@@ -42,8 +44,8 @@ if [ "$(command -v tokei)" != "" ]; then
 fi
 
 echo ""
-echo "Output files:"
-ls -lh game tests
+echo "Output file:"
+ls -lh tests
 echo ""
 echo ""
 echo ""

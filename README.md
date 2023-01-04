@@ -13,3 +13,13 @@ The simplest way to compile and link this project to a finished executable is ru
 ```
 $ compile.sh
 ```
+
+## Testing
+
+Testing is still at a very early stage sinec i'm building the whole testing framework myself in assembly aswell.
+
+If you still want to run the included tests, you can use the `test.sh` script that compiles everything and runs the tests.
+
+```
+$ test.sh
+```
