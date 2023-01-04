@@ -31,4 +31,21 @@ $($linker_command)
 rm *.o
 rm test/*.o
 
+if [ "$(command -v tokei)" != "" ]; then
+    echo "Code stats for main program:"
+    echo ""
+    tokei . -e test
+    echo ""
+    echo "Code stats for test sources:"
+    echo ""
+    tokei test
+fi
+
+echo ""
+echo "Output files:"
+ls -lh game tests
+echo ""
+echo ""
+echo ""
+
 ./tests
