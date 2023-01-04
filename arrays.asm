@@ -3,6 +3,7 @@
 global arrays_equal_zero_term
 global c_strings_equal_ci
 global char_to_lowercase
+global char_to_uppercase
 
 section	.text
 
@@ -60,3 +61,14 @@ char_to_lowercase:
 _already_lowercase:
     mov al, dil
     ret
+
+char_to_uppercase:
+	mov r8b, dil
+	cmp r8b, 'a'
+	jl _already_uppercase
+	cmp r8b, 'z'
+	jg _already_uppercase
+	sub dil, ascii_offset_lc_uc
+_already_uppercase:
+	mov al, dil
+	ret
