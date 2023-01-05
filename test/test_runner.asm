@@ -2,7 +2,9 @@ section .data
 
     _label_start db "Running aunit tests", 10, 0
     _tests dq lbl_test_char_to_lowercase, test_char_to_lowercase
-           dq lbl_test_char_to_uppercase, test_char_to_uppercase, 0
+           dq lbl_test_char_to_uppercase, test_char_to_uppercase
+           dq lbl_test_arrays_are_equal, test_arrays_are_equal
+           dq lbl_test_c_strings_equal_ci, test_c_strings_equal_ci, 0
 
     _lbl_before_test db "  - ", 0
     _lbl_after_test_name db "...", 0
@@ -18,6 +20,12 @@ extern lbl_test_char_to_lowercase
 extern test_char_to_uppercase
 extern lbl_test_char_to_uppercase
 
+extern test_arrays_are_equal
+extern lbl_test_arrays_are_equal
+
+extern test_c_strings_equal_ci
+extern lbl_test_c_strings_equal_ci
+
 global _start
 
 section .text
@@ -29,15 +37,15 @@ _start:
     mov r8, _tests
 _next_test:
     cmp qword [r8], 0
-    jz _all_tests_run    
+    jz _all_tests_run
     push r8
     mov rsi, [r8]
-    mov rdi, [r8 + 8]    
+    mov rdi, [r8 + 8]
     call run_test
     pop r8
     add r8, 16
     jmp _next_test
-_all_tests_run:    
+_all_tests_run:
     call exit_group
 
 run_test:
@@ -45,14 +53,14 @@ run_test:
     push rsi
     mov rdi, _lbl_before_test
     call print_c_string
-    pop rdi    
+    pop rdi
     call print_c_string
     mov rdi, _lbl_after_test_name
-    call print_c_string        
+    call print_c_string
     pop rdi
     call rdi
-    cmp rax, 1
-    je _print_ok_lbl
+    cmp rax, 0
+    jz _print_ok_lbl
     mov rdi, _lbl_fail
     call print_c_string
     ret

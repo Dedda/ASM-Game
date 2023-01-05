@@ -36,8 +36,8 @@ assert_equals_rdi_rsi:
     pop rdi
     call print_u64
     call print_newline
-    xor rax, rax
+    mov rax, 1
     ret
 _assert_equals_rdi_rsi_equal:
-    mov rax, 1
+    xor rax, rax
     ret

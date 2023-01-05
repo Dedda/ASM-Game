@@ -23,7 +23,7 @@ rm *.o
 
 chmod +x game
 
-if [ "$(command -v tokei)" != "" ]; then    
+if [ "$(command -v tokei)" != "" ]; then
     echo "Code stats for main program:"
     echo ""
     tokei . -e test
