@@ -4,7 +4,7 @@ set -e
 source_files=( arrays game game_state imgdata input menu printing savegame room_docks room_harbor_plaza tui utf8 )
 test_sources=( aunit report test_runner tests_arrays )
 
-linker_command="ld -o tests"
+linker_command="ld -o tests libassunit.a"
 
 echo "Compiling source files:"
 
@@ -22,6 +22,11 @@ do
     linker_command="${linker_command} test/${test_source}.o"
 done
 
+echo "Compiling AssUnit"
+(cd AssUnit; ./compile.sh)
+
+cp AssUnit/libassunit.a ./
+
 echo ""
 echo "Linkig with command:"
 echo "  ${linker_command}"
@@ -30,6 +35,8 @@ $($linker_command)
 
 rm *.o
 rm test/*.o
+rm libassunit.a
+
 
 chmod +x tests
 
@@ -46,7 +53,6 @@ fi
 echo ""
 echo "Output file:"
 ls -lh tests
-echo ""
 echo ""
 echo ""
 
