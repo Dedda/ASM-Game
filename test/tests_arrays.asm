@@ -11,7 +11,7 @@ test_arrays_are_equal_array_2 db "test array should be equal", 0
 test_c_strings_equal_ci_string_1 db "Test String Should be Equal", 0
 test_c_strings_equal_ci_string_2 db "tesT strinG shoulD be equaL", 0
 
-extern assert_equals_rdi_rsi
+extern assunit_assert_equals_rdi_rsi
 extern arrays_equal_zero_term
 extern c_strings_equal_ci
 
@@ -38,7 +38,7 @@ test_char_to_lowercase:
     call char_to_lowercase
     mov rdi, 'a'
     mov rsi, rax
-    call assert_equals_rdi_rsi
+    call assunit_assert_equals_rdi_rsi
     ret
 
 test_char_to_uppercase:
@@ -47,7 +47,7 @@ test_char_to_uppercase:
     call char_to_uppercase
     mov rdi, 'A'
     mov rsi, rax
-    call assert_equals_rdi_rsi
+    call assunit_assert_equals_rdi_rsi
     ret
 
 test_arrays_are_equal:
