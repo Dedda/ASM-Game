@@ -1,0 +1,4 @@
+[submodule "AssUnit"]
+	path = AssUnit
+	url = https://github.com/Dedda/AssUnit.git
+	branch = main
